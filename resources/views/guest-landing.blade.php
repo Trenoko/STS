@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Croissant+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -37,50 +38,32 @@
     <header class="bg-white shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <!-- Logo -->
+                <!-- Logo-->
                 <div class="flex items-center space-x-3">
                     <img src="{{ asset('images/masakku-logo.png') }}" alt="MasakKu Logo" class="h-14 w-auto object-contain hidden md:block">
                     <h1 class="text-2xl font-croissant text-gray-900">MasakKu</h1>
                 </div>
                 
-                <!-- Search Bar -->
+                <!-- Search Bar (guest) -->
                 <div class="flex-1 mx-2 md:mx-8 md:max-w-md">
                     <div class="relative">
-                        <input type="text" placeholder="Search recipes..." class="w-full px-4 py-2 pl-10 pr-10 text-gray-900 bg-white border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer" onclick="window.location.href='{{ route('search') }}'" readonly>
+                        <input type="text" placeholder="Search recipes..." class="w-full px-4 py-2 pl-10 pr-10 text-gray-900 bg-white border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer" onclick="window.location.href='{{ route('guest.search') }}'" readonly>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <img src="{{ asset('images/icon-search.svg') }}" alt="Search" class="w-5 h-5 text-gray-400">
                         </div>
                     </div>
                 </div>
                 
-                <!-- Profile + Admin button (hanya admin)-->
+                <!-- Login/Register Buttons -->
                 <div class="flex items-center space-x-3">
-                    <span class="text-gray-900 font-inter font-semibold hidden md:block">Hello {{ Auth::user()->name }}!</span>
-                    <a href="{{ route('profile') }}" class="w-10 h-10 bg-gray-300 rounded-full overflow-hidden block">
-                        <img
-                            src="{{ Auth::user()->profile_picture ? asset('images/' . Auth::user()->profile_picture) : asset('images/default-user.png') }}"
-                            alt="Profile"
-                            class="w-full h-full object-cover"
-                        >
-                    </a>
-
-                    @if(Auth::user()->is_admin)
-                        <a
-                            href="{{ route('admin.dashboard') }}"
-                            class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 text-sm font-inter text-gray-700 hover:bg-gray-100"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                            </svg>
-                            <span>Admin Page</span>
-                        </a>
-                    @endif
+                    <a href="{{ route('login') }}" class="text-gray-900 font-inter font-semibold hover:text-pink-500 transition-colors hidden md:block">Login</a>
+                    <a href="{{ route('register') }}" style="background-color: #5E3E36;" class="text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full font-inter font-semibold hover:bg-pink-600 transition-colors text-sm md:text-base">Register</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Image blur -->
+    <!-- Blur -->
     <section class="hero-bg relative min-h-[400px] flex items-center justify-center">
         <div class="text-center text-white">
             <h2 class="text-5xl font-bold mb-2">Temukan Resep</h2>
@@ -118,14 +101,7 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('recipes.show', $recipe->slug) }}'">
                     <div class="relative">
                         <img src="{{ asset('images/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
-                        <button
-                            type="button"
-                            class="favorite-toggle absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-pink-50 hover:scale-110 transition-all duration-200 bg-white"
-                            data-url="{{ route('recipes.favorite', $recipe) }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 {{ isset($liked) && in_array($recipe->id, $liked) ? 'text-red-500 fill-red-500' : '' }}">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                            </svg>
-                        </button>
+                        <!-- Dak ada like button harus login -->
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-4">{{ $recipe->title }}</h3>
@@ -181,35 +157,24 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('recipes.show', $recipe->slug) }}'">
                     <div class="relative">
                         <img src="{{ asset('images/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
-                        <button
-                            type="button"
-                            class="favorite-toggle absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-pink-50 hover:scale-110 transition-all duration-200 {{ isset($liked) && in_array($recipe->id, $liked) ? 'bg-red-200' : 'bg-white' }}"
-                            data-url="{{ route('recipes.favorite', $recipe) }}">
-                            <!-- Heroicon: heart outline -->
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 {{ isset($liked) && in_array($recipe->id, $liked) ? 'text-red-500 fill-red-500' : '' }}">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                            </svg>
-                        </button>
+                        <!-- No like harus login -->
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-4">{{ $recipe->title }}</h3>
                         <div class="flex items-center space-x-6 text-sm text-gray-600">
                             <div class="flex items-center space-x-1">
-                                <!-- Heroicon: user (from snippet) -->
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                                 </svg>
                                 <span>{{ $recipe->views }}</span>
                             </div>
                             <div class="flex items-center space-x-1">
-                                <!-- Heroicon: heart outline -->
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                 </svg>
                                 <span>{{ $recipe->favorites }}</span>
                             </div>
                             <div class="flex items-center space-x-1">
-                                <!-- Heroicon: clock (from snippet) -->
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -249,42 +214,42 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
-                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('search', ['category' => 'masakan-utama']) }}'">
+                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('guest.search', ['category' => 'masakan-utama']) }}'">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #F3CEDA;">
                         <img src="{{ asset('images/masakan-utama.png') }}" alt="Masakan Utama" class="w-8 h-8">
                     </div>
                     <p class="text-sm font-medium text-gray-900">Masakan Utama</p>
                 </div>
 
-                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('search', ['category' => 'minuman']) }}'">
+                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('guest.search', ['category' => 'minuman']) }}'">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #B8D3E0;">
                         <img src="{{ asset('images/minuman.png') }}" alt="Minuman" class="w-8 h-8">
                     </div>
                     <p class="text-sm font-medium text-gray-900">Minuman</p>
                 </div>
 
-                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('search', ['category' => 'dessert']) }}'">
+                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('guest.search', ['category' => 'dessert']) }}'">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #F7EED4;">
                         <img src="{{ asset('images/dessert.png') }}" alt="Dessert" class="w-8 h-8">
                     </div>
                     <p class="text-sm font-medium text-gray-900">Dessert</p>
                 </div>
 
-                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('search', ['category' => 'sea-food']) }}'">
+                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('guest.search', ['category' => 'sea-food']) }}'">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #AFCFAF;">
                         <img src="{{ asset('images/sea-food.png') }}" alt="Sea Food" class="w-8 h-8">
                     </div>
                     <p class="text-sm font-medium text-gray-900">Sea Food</p>
                 </div>
 
-                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('search', ['category' => 'sup-kuah']) }}'">
+                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('guest.search', ['category' => 'sup-kuah']) }}'">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #D3C8EA;">
                         <img src="{{ asset('images/sup.png') }}" alt="Sup &amp; Kuah" class="w-8 h-8">
                     </div>
                     <p class="text-sm font-medium text-gray-900">Sup &amp; Kuah</p>
                 </div>
 
-                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('search', ['category' => 'cemilan']) }}'">
+                <div class="bg-gray-100 rounded-lg p-4 text-center hover:scale-105 hover:bg-gray-200 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('guest.search', ['category' => 'cemilan']) }}'">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #DDD9D5;">
                         <img src="{{ asset('images/cemilan.png') }}" alt="Cemilan" class="w-8 h-8">
                     </div>
@@ -297,7 +262,7 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Bagian kiri -->
+                <!-- Bagian Kiri -->
                 <div>
                     <h2 class="text-4xl font-bold text-gray-900 mb-6">
                         Mengapa Pilih <div style="color:#E699B3"">Platform Kami?</div>
@@ -330,7 +295,7 @@
                     </div>
                 </div>
                 
-                <!-- Feature Cards -->
+                <!-- Kanan - Feature Cards -->
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Ribuan Resep -->
                     <div class="p-6 rounded-lg bg-gray-100">
@@ -371,43 +336,5 @@
             </div>
         </div>
     </section>
-
-    <script>
-        // Favorite toggle
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.favorite-toggle').forEach(function (btn) {
-                btn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-
-                    const url = this.dataset.url;
-                    if (!url) return;
-
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({})
-                    }).then(res => res.json())
-                      .then(data => {
-                          if (data && data.success) {
-                              const icon = btn.querySelector('svg');
-                              if (icon) {
-                                  if (data.liked) {
-                                      icon.classList.add('text-red-500', 'fill-red-500');
-                                  } else {
-                                      icon.classList.remove('text-red-500', 'fill-red-500');
-                                  }
-                              }
-                          }
-                      }).catch(() => {
-                          console.error('Gagal memperbarui status favorit');
-                      });
-                });
-            });
-        });
-    </script>
 </body>
 </html>

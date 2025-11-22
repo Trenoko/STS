@@ -3,11 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign in - MasakKu</title>
+    <title>Forgot Password - MasakKu</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Croissant+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,66 +39,45 @@
         <!-- Form -->
         <div class="flex-1 flex items-center justify-center p-6 md:p-10">
             <div class="w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-sm px-8 py-8">
-                <h1 class="text-3xl text-center text-[#8B4513] font-croissant mb-6">Sign in</h1>
+                <h1 class="text-2xl text-center text-[#8B4513] font-croissant mb-4">Please fill your email</h1>
 
-                @if(session('status'))
-                    <div class="mb-4 text-sm text-green-700 text-center bg-green-50 border border-green-200 rounded py-2 px-3 font-inter">
+                @if (session('status'))
+                    <div class="mb-4 bg-green-50 border border-green-200 text-green-700 rounded px-4 py-3 text-sm font-inter">
                         {{ session('status') }}
                     </div>
                 @endif
 
-                @if(session('error'))
-                    <div class="mb-4 text-sm text-red-700 text-center bg-red-50 border border-red-200 rounded py-2 px-3 font-inter">
-                        {{ session('error') }}
+                @if ($errors->any())
+                    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 rounded px-4 py-3 text-sm font-inter">
+                        <ul class="list-disc pl-5 space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 @endif
 
-                @if($errors->any())
-                    <div class="mb-4 text-sm text-red-700 text-center bg-red-50 border border-red-200 rounded py-2 px-3 font-inter">
-                        {{ $errors->first() }}
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ route('login.post') }}" class="space-y-5">
+                <form method="POST" action="{{ route('password.email') }}" id="forgotPasswordForm" class="space-y-5">
                     @csrf
 
                     <div>
-                        <label for="username" class="block text-sm font-medium text-gray-700 mb-1 font-inter">Username</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1 font-inter">Email</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <img src="{{ asset('images/icon-user.svg') }}" alt="User Icon" class="w-4 h-4 text-gray-400">
+                                <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                </svg>
                             </span>
                             <input
-                                type="text"
-                                id="username"
-                                name="username"
+                                type="email"
+                                name="email"
+                                id="email"
                                 class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm font-inter focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                                placeholder="Username"
+                                placeholder="Confirm email"
                                 required
                                 autofocus
                             >
                         </div>
-                    </div>
-
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1 font-inter">Password</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <img src="{{ asset('images/icon-password.svg') }}" alt="Password Icon" class="w-4 h-4 text-gray-400">
-                            </span>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm font-inter focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                                placeholder="Password"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-end">
-                        <a href="{{ route('password.request') }}" class="text-sm font-inter text-red-500 hover:text-red-600 hover:underline">Forgot Password?</a>
                     </div>
 
                     <button
@@ -107,16 +85,26 @@
                         class="w-full py-2.5 mt-1 rounded-full text-white text-sm font-inter tracking-wide"
                         style="background-color:#8B4513;"
                     >
-                        Sign in
+                        Confirm
                     </button>
                 </form>
 
                 <div class="mt-6 text-center text-sm text-gray-700 font-inter">
-                    Don't have an account?
-                    <a href="{{ route('register') }}" class="text-indigo-600 hover:text-indigo-700 hover:underline">Click here</a>
+                    <a href="{{ route('login') }}" class="text-[#8B4513] hover:underline">Back to Login</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+            const email = document.getElementById('email').value;
+            
+            if (email.trim() === '') {
+                e.preventDefault();
+                alert('Please enter your email address.');
+            }
+        });
+    </script>
 </body>
 </html>

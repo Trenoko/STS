@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -13,7 +14,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Atribut yang boleh diisi secara mass assignment.
      *
      * @var array<int, string>
      */
@@ -21,10 +22,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'is_admin',
+        'birthday',
+        'profile_picture',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Atribut yang harus disembunyikan saat model diserialisasi.
      *
      * @var array<int, string>
      */
@@ -34,12 +39,22 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Atribut yang harus dikonversi tipe datanya (cast).
      *
      * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_admin' => 'boolean',
+        'birthday' => 'date',
     ];
+
+    /**
+     * Resep yang ditandai pengguna ini sebagai favorit.
+     */
+    public function favoriteRecipes(): BelongsToMany
+    {
+        return $this->belongsToMany(Recipe::class, 'favorites')->withTimestamps();
+    }
 }

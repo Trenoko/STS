@@ -1,67 +1,195 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MasakKu - Platform Resep #1 di Indonesia
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![MasakKu Logo](public/images/masakku-logo.png)
 
-## About Laravel
+MasakKu adalah Web yang cocok untuk orang orang pada saat mereka bingung mau masak apa dan mereka bisa memakai fitur filter yang dimana jika mereka mau 
+atur kadar gizi dalam makanan itu mereka dapat mencarinya menggunakan filter misalnya mau banyak karbohidrat jdi mereka tinggal milih 
+filter karbo dan masi ada filter lainnya lagi dan juga web kami sangat cocok jika mereka yang ingin masak tpi bingung ingin masak apa 
+dengan bahan seadanya di rumah
+## Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **Ribuan Resep**: Koleksi lengkap resep dari seluruh nusantara hingga internasional
+-   **Filter**: Sistem Filter Yang Dapat Di Sesuaikan Dengan Kemauan User
+-   **Kategori Lengkap**: Masakan Utama, Minuman, Dessert, Sea Food, Sup & Kuah, Cemilan
+-   **Admin Page**: Memiliki Fitur Admin Page yang bekerja
+-   **Fitur Search**: Memiliki Fitur Search Pada Admin Page Maupun User Page
+-   **Fitur Chart**: Memiliki Fitur Chart Pada Dashboard admin
+-   **Fitur Lupa Password**: Memiliki Fitur Lupa Password
+-   **Fitur CRUD**: Memiliki Fitur CRUD Pada Admin Page dan User Profile
+-   **Fitur NonAktif Menu**: Memiliki Fitur Untuk Menonaktifkan Menu Makanan Baik Secara 1 Menu Maupun Secara Category
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prasyarat
 
-## Learning Laravel
+-   PHP >= 8.1
+-   Composer
+-   Node.js & NPM
+-   MySQL
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Langkah Instalasi
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Clone Repository**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    ```bash
+    git clone https://github.com/Trenoko/STS.git
+    cd STS
+    ```
 
-## Laravel Sponsors
+2. **Install Dependencies**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    ```bash
+    composer install
+    npm install
+    ```
 
-### Premium Partners
+3. **Setup Environment**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-## Contributing
+4. **Konfigurasi Database**
+   Edit file `.env` dan sesuaikan konfigurasi database dengan environment lokal Anda:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=sts
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
 
-## Code of Conduct
+5. **Konfigurasi SMTP / MAIL_MAILER**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    Aplikasi ini menggunakan email untuk verifikasi dan reset password berikut langkah langkah configurasi nya:
 
-## Security Vulnerabilities
+    ![Step 1](public/images/step-1.png)
+    Buka lah Google account mu dan masuk kebagian Security
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    ![Step 2](public/images/step-2.png)
+    Masuk kedalam  2-Step Verification
 
-## License
+    ![Step 3](public/images/step-3.png)
+    Nyalakan 2 Step Verification
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# STS" 
+    ![Step 4](public/images/step-4.png)
+    Keluar dari page 2 step verification
+
+    ![Step 5](public/images/step-5.png)
+    Search App Password pada searchbar
+
+    ![Step 6](public/images/step-6.png)
+    Masukkan Nama yang kamu inginkan
+
+    ![Step 7](public/images/step-7.png)
+    App Password akan di buat silahkan di copy
+
+    ![Step 8](public/images/step-8.png)
+
+    Sekarang Kembali Ke VsCode dan membuka file .env
+
+    ![Step 9](public/images/step-9.png)
+
+    ubahlah MAIL_USERNAME dan MAIL_FROM_ADDRESS menggunakan email yang kamu gunakan untuk mendapatkan App Password
+    Kemudian Paste Password yang tadi sudah di Copy pada Mail_Password dan hapus sepasi pada password
+
+6. **Jalankan Migration dan Seeder**
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+7. **Build Assets**
+
+    ```bash
+    npm run build
+    ```
+
+8. **Jalankan Server**
+
+    ```bash
+    php artisan serve
+    ```
+
+---
+
+## Penggunaan Singkat
+
+1. **Registrasi & Login**
+
+    - Pengguna baru melakukan registrasi dan verifikasi email.
+    - Setelah login, pengguna diarahkan ke halaman landing resep.
+
+2. **Jelajahi Resep**
+
+    - Cari resep via search bar.
+    - Gunakan filter kategori (Masakan Utama, Minuman, dll.).
+    - Gunakan filter nutrisi sesuai kebutuhan.
+
+3. **Favorit & Detail Resep**
+
+    - Klik ikon hati untuk menandai resep sebagai favorit.
+    - Buka detail resep untuk melihat bahan, langkah (recipe_steps), dan informasi lain.
+
+4. **Halaman Admin**
+    - Akun dengan status admin dapat masuk ke halaman `Admin Page` dari tombol khusus di header.
+    - Admin dapat mengelola menu (resep) dan pengguna (aktif/nonaktif, peran admin).
+    - Email Admin Adalah :admin@masakku.com
+    - Password Admin Adalah:admin123
+
+---
+
+## Tech Stack
+
+-   **Backend**: Laravel 10.x
+-   **Frontend**: Blade Templates + Tailwind CSS
+-   **Database**: MySQL
+-   **Auth**: Laravel session authentication (login biasa)
+-   **Icons & UI**: SVG Heroicons + aset gambar custom
+-   **Tool**: ChatGpt, Gemini, Kimi AI, Youtube
+
+---
+
+## Struktur Proyek (Singkat)
+
+```
+STS/
+├── app/
+│   ├── Http/Controllers/     # Controller HTTP (Auth, Recipe, Admin, dll.)
+│   ├── Models/               # Eloquent models (User, Recipe, RecipeStep, Category, ...)
+├── database/
+│   ├── migrations/           # Migrasi tabel
+│   └── seeders/              # Seeder awal (UserSeeder, RecipeSeeder, dll.)
+├── public/
+│   └── images/               # Gambar (logo, icon, step-1 .. step-9, dll.)
+├── resources/
+│   ├── views/                # Blade templates (landing, auth, admin, dll.)
+├── routes/
+│   └── web.php               # Routing utama aplikasi web
+```
+
+### Skema Database (Utama)
+
+-   **users**: data pengguna (nama, email, status, is_admin, dll.)
+-   **recipes**: data resep utama
+-   **recipe_steps**: langkah memasak per resep
+-   **categories**: kategori resep
+-   **favorites**: mapping user ke resep favorit
+
+### Pembagian Tugas
+- **Robert**: FullStack
+- **Kenneth**:UI&UX Designer
+- **Davin**:UI&UX Designer
+
+---
+
+## Kontak
+
+-   **Email**: r03er7301@gmail.com
+
+---
+
+**MasakKu** - Platform Resep #1 di Indonesia
